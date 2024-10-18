@@ -11,5 +11,12 @@ def draw(): # function definition draw
     # return concatinated text with value from the_card variable , of, and alue from the_suit variable
     return the_card, "of", the_suit
 print(draw()) # call function draw and print value
-print(draw()) # call function draw and print value
-print(draw()) # call function draw and print value
+# print_draw(2) # RunTime error: Since print_draw function is defined below this statement it cannot find it ,
+print("=> print_draw function call results below ")
+#  For Loop example
+def print_draw(times):
+    for i in range(times):
+        print(draw())
+
+print_draw(2) # call function draw and print value
+print_draw(5) # call function draw and print value
