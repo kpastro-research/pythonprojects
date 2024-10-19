@@ -23,3 +23,5 @@ print("card3 in deck", card3 in deck)
 # LESSONS LEARNT
 # ~~~~~~~~~~~~~~~~~~
 #  finding in collection
+# Python has two built-in boolean values: True and False.
+# in is equivalent to  contains condition check , can be used with if else

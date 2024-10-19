@@ -30,3 +30,4 @@ print(draw_and_remove())
 # Since Set Being an unordered collection, sets do not record element position or order of insertion.
 # Accordingly, sets do not support indexing, slicing, or other sequence-like behavior.
 # random.choice(deck_of_cards()) its converted to list
+#  remove()

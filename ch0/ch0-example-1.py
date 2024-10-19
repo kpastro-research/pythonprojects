@@ -36,4 +36,6 @@ print_draw(5) # call function draw and print value
 # function definition starts with def function bname(parameters if any) : <= end with colon
 # code in function  is indented , i.e cannot start exactly below def
 # code in for loop is also indented , i.e cannot start exactly below for
+# range() BIF produces a specified list of numbers (and is really useful with loops when
+# print() print BIF displays an object’s value on screen. When a collection of objects are printed, the print BIF displays horizontally across the screen (which often comes in handy).
 
