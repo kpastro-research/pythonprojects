@@ -1,7 +1,7 @@
 import statistics
 # module swimclub
 #100th of second is centisecond 
-def convertcentisecond(centiseconds_param):
+def convertcentisecond_dict(centiseconds_param):
     minutes_seconds , centiseconds = str(round(centiseconds_param / 100,2)).split('.') # divide by 100 , numbers before decimals are records and after decimal are centiseconds
     minutes = int(int(minutes_seconds) / 60) # assuming centisecond could be more then 60 , here we convert to a minutes
     seconds = int(minutes_seconds) - minutes * 60
@@ -10,7 +10,7 @@ def convertcentisecond(centiseconds_param):
 
 
 
-def process_swim_data(swimmingData):
+def process_swim_data_dict(swimmingData):
     centisecondsecondList = list()
     swimmerTimings = {}
     linevalues = swimmingData.strip().split(',')
@@ -34,7 +34,7 @@ def process_swim_data(swimmingData):
     return swimmerTimings
 
 
-def get_data_from_file_name(filename):
+def get_data_from_file_name_dict(filename):
     swimmerData = {}
     filename_without_extension, file_extension = filename.split('.')
     swimmerName, underAgeGroup, swimDistanceInMeters, swimStroke = filename_without_extension.split('-')
@@ -45,20 +45,20 @@ def get_data_from_file_name(filename):
     return swimmerData
 
 
-def process_swim_data_file(filename):
-    swimmerData = get_data_from_file_name(filename)
+def process_swim_data_file_dict(filename):
+    swimmerData = get_data_from_file_name_dict(filename)
 
     with  open(filename, 'r') as file:
         for swimmingData in file.readlines():
-            swimmerData.update({"timings":process_swim_data(swimmingData)})
+            swimmerData.update({"timings":process_swim_data_dict(swimmingData)})
 
     return swimmerData
 
 
-def average(timing_data):
+def average_dict(timing_data):
     averagedata = {}
     avgcentiseconds = statistics.mean(timing_data.values())
-    min_sec_centiseconds = convertcentisecond(avgcentiseconds)
+    min_sec_centiseconds = convertcentisecond_dict(avgcentiseconds)
     averagedata.update({min_sec_centiseconds:avgcentiseconds})
     return averagedata
 
