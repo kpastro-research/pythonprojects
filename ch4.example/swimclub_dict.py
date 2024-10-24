@@ -149,3 +149,34 @@ def get_swim_data_dict(swimDataFolder, t_min, t_max, log):
         all_swimclub_data.update({filename: swimclub_data})
 
     return all_swimclub_data
+# ------------------------------------------------------------
+# function: get_simple_text_graph_data
+# - Demonstrate
+#   - processing dictionary
+#   - use of f-string
+#   - get first element from dictionary
+# ------------------------------------------------------------
+def get_simple_text_graph_data(swimmer_data_node):
+
+    border_line = "-" * 60
+    user_data = (f"{border_line}"
+                 f"\nName:{swimmer_data_node.get('name')}"
+                 f"\nAge Group:{swimmer_data_node.get('agegroup')}"
+                 f"\nDistance:{swimmer_data_node.get('distance')}"
+                 f"\nStroke:{swimmer_data_node.get('stroke')}"
+                 f"\n{border_line}")
+    timings_data_range = swimmer_data_node.get('timings_range')
+    user_graph_data = f""
+    counter = len(timings_data_range)
+    max_range = 440
+
+    for timing in timings_data_range:
+        range = timings_data_range.get(timing)
+        user_graph_data = user_graph_data + f"\n{counter} |{'*' * int(range / 10)} {' ' * int(((max_range) - range) / 10)}{timing}"
+        counter = counter - 1
+
+
+    user_graph_data = user_graph_data + (f"\n{border_line}"
+                                         f"\nAverage time: {next(iter(swimmer_data_node.get("average")))}"
+                                         f"\n{border_line}")
+    return user_data , user_graph_data
