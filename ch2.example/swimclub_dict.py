@@ -1,3 +1,8 @@
+# ------------------------------------------------------------
+# module: swimclub_dict
+# contains functions to process suimmer data
+# Version 1.0
+# ------------------------------------------------------------
 import statistics
 # module swimclub
 #100th of second is centisecond 

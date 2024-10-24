@@ -1,9 +1,10 @@
 # ------------------------------------------------------------
 # module: swimclub_dict
 # contains functions to process suimmer data
-# Version 2.O
+# Version:3.0
 # ------------------------------------------------------------
 import os
+import pprint
 import statistics
 import hfpy_utils
 # ------------------------------------------------------------
@@ -92,7 +93,59 @@ def process_swim_data_file_dict(filename):
 # ------------------------------------------------------------
 def average_dict(timing_data):
     averagedata = {}
-    avgcentiseconds = statistics.mean(timing_data.values())
+    avgcentiseconds = int(statistics.mean(timing_data.values()))
     min_sec_centiseconds = convertcentisecond_dict(avgcentiseconds)
     averagedata.update({min_sec_centiseconds:avgcentiseconds})
     return averagedata
+
+# ------------------------------------------------------------
+# function: get_range_from_timing
+# - calculates range value from based on set of centiseconds
+# - parameters
+#       timing_data - dict of timing dict ({min:sec.centisecond: centiseconds})
+#       t_min - minimum range values default 0
+#       t_max -  maximum range values default 0
+#       log - boolean if print statement to be executed
+#  return time_range dict  ({min:sec.centisecond: range value })
+# ------------------------------------------------------------
+def get_range_from_timing(timing_data, t_min, t_max, log):
+    time_range ={}
+    for timing in timing_data:
+
+        value = timing_data.get(timing)
+        range = int(hfpy_utils.convert2range(value, 0, max(timing_data.values()),t_min,t_max))
+        time_range.update({timing:range})
+        if log:
+            print (timing, "->", timing_data.get(timing), "->" , range)
+
+    return time_range
+
+# ------------------------------------------------------------
+# function: get_swim_data_dict
+# - iterators over all files and generates a dictionary
+# - converts average centsecond to min:second.second format
+# ------------------------------------------------------------
+def get_swim_data_dict(swimDataFolder, t_min, t_max, log):
+
+    # all_swimclub_data = {'':{}}
+    all_swimclub_data={}
+    line_length=80
+    if log:
+        print("-" * line_length)
+    folder_contents = os.listdir(swimDataFolder)    # list contents of ../swimdata  folder
+    for filename in folder_contents:
+        file_with_path = os.path.join(swimDataFolder, filename) # combine folder name and filename to get absolute path file_with_path
+        if log:
+            print("Processing file:"+file_with_path  )
+            print("-" * line_length )
+
+        swimclub_data = process_swim_data_file_dict(file_with_path)
+        timing_data = swimclub_data.get("timings")
+        swimclub_data.update({"average": average_dict(timing_data)})
+        swimclub_data.update({"timings_range": get_range_from_timing(timing_data, t_min, t_max, log)})
+        if log:
+            pprint.pprint(swimclub_data )
+            print("-" * line_length  )
+        all_swimclub_data.update({filename: swimclub_data})
+
+    return all_swimclub_data
