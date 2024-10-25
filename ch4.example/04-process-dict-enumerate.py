@@ -6,7 +6,6 @@
 #   - use of f-strings
 #   - use of len BIF
 #   - use of enumeration BIF  in loop
-
 #------------------------------------------------------------
 
 import swimclub_dict
