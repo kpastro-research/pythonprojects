@@ -123,7 +123,7 @@ def get_range_from_timing(timing_data, t_min, t_max, log):
 # ------------------------------------------------------------
 # function: get_swim_data_dict
 # - iterators over all files and generates a dictionary
-# - converts average centsecond to min:second.second format
+# - converts average centisecond to min:second.second format
 # ------------------------------------------------------------
 def get_swim_data_dict(swimDataFolder, t_min, t_max, log):
 
@@ -180,3 +180,84 @@ def get_simple_text_graph_data(swimmer_data_node):
                                          f"\nAverage time: {next(iter(swimmer_data_node.get("average")))}"
                                          f"\n{border_line}")
     return user_data , user_graph_data
+# ------------------------------------------------------------
+# function: gen_html_page
+# - Demonstrate
+#   - generating html with fstring and parameter replacement
+#   - if not and and condition
+#   - enumeration in for loop
+#   - write to file
+# ------------------------------------------------------------
+
+def gen_html_page(all_swimmer_data, fname , folder):
+    # global fname_ext_excluded,
+    DEFAULT_CHART_DATA_FOLDER = "../charts/"
+    CHART_DATA_FOLDER=""
+    if not folder is  None and folder != "":
+        CHART_DATA_FOLDER = folder
+    else:
+        CHART_DATA_FOLDER = DEFAULT_CHART_DATA_FOLDER
+    fname_ext_excluded = fname.split('.')[0]
+    html_header = (f"<!DOCTYPE html>"
+                   f"<html lang='en'>"
+                   f" <head>"
+                   f"      <meta charset='UTF-8'>"
+                   f"      <title>{fname_ext_excluded}</title>"
+                   f"</head>")
+    swimmer_data = all_swimmer_data.get(fname)
+    timings_data_range = swimmer_data.get('timings_range')
+    html_body = (f"<body>"
+                 f"<table border='1'>"
+                 f"   <tr>"
+                 f"       <td colspan=2>{fname_ext_excluded}</td>"
+                 f"   </tr>"
+                 f"   <tr>"
+                 f"       <td>Name:</td>"
+                 f"       <td>{swimmer_data.get('name')}</td>"
+                 f"   </tr>"
+                 f"   <tr>"
+                 f"       <td>Age Group:</td>"
+                 f"       <td>Under {swimmer_data.get('agegroup')}</td>"
+                 f"   </tr>"
+                 f"   <tr>"
+                 f"       <td>Distance:</td>"
+                 f"       <td>{swimmer_data.get('distance')}</td>"
+                 f"   </tr>"
+                 f"   <tr>"
+                 f"       <td>Stroke:</td>"
+                 f"       <td>{swimmer_data.get('stroke')}</td>"
+                 f"   </tr>")
+    svg_chart = (f"   <tr>"
+                 f"       <td colspan=2 align='middle'>{fname_ext_excluded}</td>"
+                 f"   </tr>")
+    timings_data_range_length = len(timings_data_range)
+    for counter, timing in enumerate(timings_data_range):
+        range = timings_data_range.get(timing)
+        if counter % 2 == 0:
+            rgb = "75,150,250"
+        else:
+            rgb = "250,150,75"
+
+        svg_chart = svg_chart + (f"   <tr>"
+                                 f"       <td align='right'>{timings_data_range_length - counter}</td>"
+                                 f"       <td>"
+                                 f"             <svg height='15' width='400'>"
+                                 f"                 <rect height='15' width='{range}' style='fill:rgb({rgb})'/>"
+                                 f"             </svg>{'&nbsp;' * 5} {timing}"
+                                 f"         </td>"
+                                 f"   </tr>")
+    # -- for loop end
+    html_footer = (
+        f"   <tr>"
+        f"       <td align='right'>Average:</td>"
+        f"       <td>{next(iter(swimmer_data.get("average")))}</td>"
+        f"   </tr>"
+        f"</table>"
+        f"</body>"
+        f"</html>")
+
+    html_file_content = html_header + html_body + svg_chart + html_footer
+    html_file_with_path=CHART_DATA_FOLDER + fname_ext_excluded + ".html"
+    # write fie
+    with open(html_file_with_path, "w") as sf:
+        print(html_file_content, file=sf)
