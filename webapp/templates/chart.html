@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block body %}
+    {% for swimmer in swimmer_data %}
+    {%  set timings_data_range = swimmer['timings_range'] %}
+            <table border='1'>
+                <tr>
+                    <td colspan=2>Swimmer Details  Report for {{swimmer['name']}}</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td> {{swimmer['name']}}</td>
+                </tr>
+                <tr>
+                    <td>Age Group:</td>
+                    <td>Under {{swimmer['agegroup']}}</td>
+                </tr>
+                <tr>
+                    <td>Distance:</td>
+                    <td>{{swimmer['distance']}}</td>
+                </tr>
+                <tr>
+                    <td>Stroke:</td>
+                    <td>{{swimmer['stroke']}}</td>
+                </tr>
+                <tr>
+                    <td colspan=2 align='middle'>Swimmer performance chart  for {{swimmer['name']}}</td>
+                </tr>
+                {%  set rgb = "fill:rgb(75,150,250)" %}
+                {%  set timings_data_range_length = timings_data_range | length %}
+                {%  for timing in timings_data_range %}
+                {%      set range = timings_data_range.get(timing) %}
+                {%      set counter = loop.index              %}
+                {%        if counter % 2 == 0            %}
+                {%            set rgb = "fill:rgb(75,150,250)"  %}
+                {%        else                                  %}
+                {%            set rgb = "fill:rgb(250,150,75)"  %}
+                {%        endif                                 %}
+                <tr>
+                    <td align='right'>{{ timings_data_range_length - counter }}</td>
+                    <td>
+                        <svg height='15' width='400'>
+                            <rect height='15' width='{{range}}' style='{{ rgb }}'/>
+                        </svg>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{ timing }}
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td align='right'>Average:</td>
+                    <td>{{ swimmer['average'].keys() | first }}</td>
+                </tr>
+            </table>
+
+        {% endfor %}
+
+ 
+{% endblock %}
