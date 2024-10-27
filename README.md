@@ -1,7 +1,8 @@
 # python projects
 This repository includes 
 - code examples based on Headfirst Python 3rd edition
-- Not exactly following the  in the book, Data was used from the books repository
+- Not exactly following examples in book,
+- Data was used from the books github repository
 - Did not use jupyter so you will not find any files related to that  
 **MacOS Installation Notes **
 Pre-requisite 
